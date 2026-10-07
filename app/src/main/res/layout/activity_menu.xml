@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:gravity="center">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/menu"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp" >
+    </TextView>
+
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/start" >
+    </Button>
+
+    <Button
+        android:id="@+id/buttonProfile"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/profile" >
+    </Button>
+
+    <Button
+        android:id="@+id/buttonSettings"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings" >
+    </Button>
+
+    <Button
+        android:id="@+id/buttonProblem"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/report_problem" >
+    </Button>
+
+    <Button
+        android:id="@+id/buttonExit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/exit" >
+    </Button>
+
+</LinearLayout>
