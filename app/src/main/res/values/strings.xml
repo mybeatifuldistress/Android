@@ -20,6 +20,7 @@
     <string name="first_name">Имя</string>
     <string name="last_name">Фамилия</string>
     <string name="email">Email</string>
+    <string name="birth_date">День рождения</string>
     <string name="phone">Телефон</string>
     <string name="register_button">Зарегистрироваться</string>
     

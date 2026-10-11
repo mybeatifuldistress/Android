@@ -16,7 +16,7 @@
             android:textSize="28sp"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="70dp"
             android:layout_marginBottom="32dp">
         </TextView>
 
@@ -43,6 +43,63 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress" >
         </EditText>
+
+        <EditText
+            android:id="@+id/editBirthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/birth_date"
+            android:inputType="date" >
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Пол"
+            android:textSize="20sp" >
+        </TextView>
+        
+        <RadioGroup
+            android:id="@+id/radioGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Мужской" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Женский" >
+            </RadioButton>
+            
+        </RadioGroup>
+        
+        <ImageView
+            android:id="@+id/imageAvatar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:contentDescription="Аватар"
+            android:src="@drawable/ic_launcher_foreground" >
+        </ImageView>
+
+        <Button
+            android:id="@+id/buttonAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Выбрать аватар" >
+        </Button>
 
         <EditText
             android:id="@+id/editPhone"

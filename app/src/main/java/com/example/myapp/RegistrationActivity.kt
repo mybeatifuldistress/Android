@@ -56,6 +56,11 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         val buttonRegister = findViewById<Button>(R.id.buttonRegister)
+        val buttonAvatar = findViewById<Button>(R.id.buttonAvatar)
+
+        buttonAvatar.setOnClickListener {
+            Log.i(TAG, "Нажата кнопка выбора аватара")
+        }
 
         buttonRegister.setOnClickListener {
             Log.i(TAG, "Нажата кнопка регистрации")

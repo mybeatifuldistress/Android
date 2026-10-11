@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp">
         <activity
-            android:name=".MainActivity"
+            android:name=".UsersActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
