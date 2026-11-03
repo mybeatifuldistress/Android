@@ -30,4 +30,25 @@
     <string name="night_mode">Ночная тема</string>
 
     <string name="logo_description">Логотип приложения</string>
+    
+    <string name="admin">Администрирование</string>
+    <string name="role">Роль</string>
+    <string name="role_admin">Администратор</string>
+    <string name="role_user">Пользователь</string>
+    <string name="gender">Пол</string>
+    <string name="avatar">Аватар</string>
+
+    <string name="admin_title">Администрирование</string>
+    <string name="admin_only">Доступно только администратору</string>
+    <string name="make_admin">Сделать администратором</string>
+    <string name="now_admin">%1$s теперь администратор</string>
+
+    <string name="auth_log">Журнал авторизации</string>
+    <string name="refresh">Обновить</string>
+    <string name="clear">Очистить</string>
+    <string name="yes">Да</string>
+    <string name="log_empty">Журнал пуст</string>
+    <string name="log_cleared">Журнал очищен</string>
+    <string name="confirm_clear_log">Очистить журнал авторизации?</string>
+
 </resources>

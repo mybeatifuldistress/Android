@@ -36,6 +36,14 @@
         android:layout_height="wrap_content"
         android:text="@string/settings" >
     </Button>
+    
+    <Button
+        android:id="@+id/buttonAdmin"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/admin"
+        android:visibility="gone" >
+    </Button>
 
     <Button
         android:id="@+id/buttonProblem"

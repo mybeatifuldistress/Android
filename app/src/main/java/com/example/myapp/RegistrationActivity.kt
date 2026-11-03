@@ -1,10 +1,13 @@
 package com.example.myapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class RegistrationActivity : AppCompatActivity() {
@@ -18,6 +21,8 @@ class RegistrationActivity : AppCompatActivity() {
         private const val PHONE = "phone"
         private const val LOGIN = "registration_login"
         private const val PASSWORD = "registration_password"
+        private const val BIRTH_DATE = "birth_date"
+        private const val GENDER_ID = "gender_id"
     }
 
     private lateinit var editFirstName: EditText
@@ -26,6 +31,8 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var editPhone: EditText
     private lateinit var editLogin: EditText
     private lateinit var editPassword: EditText
+    private lateinit var editBirthDate: EditText
+    private lateinit var editGender: RadioGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +47,8 @@ class RegistrationActivity : AppCompatActivity() {
         editPhone = findViewById<EditText>(R.id.editPhone)
         editLogin = findViewById<EditText>(R.id.editRegistrationLogin)
         editPassword = findViewById<EditText>(R.id.editRegistrationPassword)
+        editBirthDate = findViewById<EditText>(R.id.editBirthDate)
+        editGender = findViewById<RadioGroup>(R.id.radioGender)
 
         if (savedInstanceState != null) {
             editFirstName.setText(savedInstanceState.getString(FIRST_NAME, ""))
@@ -53,6 +62,13 @@ class RegistrationActivity : AppCompatActivity() {
             editLogin.setText(savedInstanceState.getString(LOGIN, ""))
 
             editPassword.setText(savedInstanceState.getString(PASSWORD, ""))
+
+            editBirthDate.setText(savedInstanceState.getString(BIRTH_DATE, ""))
+
+            val checkedGenderId = savedInstanceState.getInt(GENDER_ID, -1)
+            if (checkedGenderId != -1) {
+                editGender.check(checkedGenderId)
+            }
         }
 
         val buttonRegister = findViewById<Button>(R.id.buttonRegister)
@@ -63,15 +79,42 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         buttonRegister.setOnClickListener {
-            Log.i(TAG, "Нажата кнопка регистрации")
-            val intent = Intent(this, MainActivity::class.java)
+            val firstName = editFirstName.text.toString().trim()
+            val lastName = editLastName.text.toString().trim()
+            val login = editLogin.text.toString().trim()
+            val password = editPassword.text.toString()
 
-            intent.putExtra("first_name", editFirstName.text.toString())
-            intent.putExtra("last_name", editLastName.text.toString())
-            intent.putExtra("email", editEmail.text.toString())
-            intent.putExtra("phone", editPhone.text.toString())
+            if (firstName.isEmpty()) { editFirstName.error = "Обязательное поле"; return@setOnClickListener }
+            if (lastName.isEmpty()) { editLastName.error = "Обязательное поле"; return@setOnClickListener }
+            if (login.isEmpty()) { editLogin.error = "Обязательное поле"; return@setOnClickListener }
+            if (password.length < 4) { editPassword.error = "Не короче 4 символов"; return@setOnClickListener }
 
-            startActivity(intent)
+            val gender = when (editGender.checkedRadioButtonId) {
+                R.id.radioMale -> "Мужской"
+                R.id.radioFemale -> "Женский"
+                else -> ""
+            }
+
+            val newUser = User(
+                login = login,
+                firstName = firstName,
+                lastName = lastName,
+                email = editEmail.text.toString().trim(),
+                phone = editPhone.text.toString().trim(),
+                birthDate = editBirthDate.text.toString().trim(),
+                gender = gender,
+                avatar = Avatars.random(),
+                nightMode = ThemeManager.isNightFromPrefs(this)
+            )
+
+            val created = DatabaseHandler.getInstance(this).registerUser(newUser, password)
+            if (created == null) {
+                editLogin.error = "Такой логин уже занят"
+                return@setOnClickListener
+            }
+
+            Toast.makeText(this, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show()
+            setResult(Activity.RESULT_OK, Intent().putExtra("registered_login", login))
             finish()
         }
     }
@@ -119,6 +162,10 @@ class RegistrationActivity : AppCompatActivity() {
         outState.putString(LOGIN, editLogin.text.toString())
 
         outState.putString(PASSWORD, editPassword.text.toString())
+
+        outState.putString(BIRTH_DATE, editBirthDate.text.toString())
+
+        outState.putInt(GENDER_ID, editGender.checkedRadioButtonId)
 
         Log.i(TAG, "RegistrationActivity: onSaveInstanceState")
 

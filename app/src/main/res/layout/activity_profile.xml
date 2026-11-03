@@ -17,8 +17,17 @@
             android:textSize="28sp"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:layout_marginTop="130dp"
-            android:layout_marginBottom="32dp" />
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="16dp" />
+        
+        <ImageView
+            android:id="@+id/imageProfileAvatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/avatar" >
+        </ImageView>
 
         <TextView
             android:layout_width="match_parent"
@@ -79,6 +88,77 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:padding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/birth_date"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/textBirthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gender"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/textGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/role"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/textRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/buttonMakeAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:text="@string/make_admin"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:padding="12dp" >
+        </TextView>
+        
+        <TextView
+            android:id="@+id/textLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="12dp" >
+        </TextView>
 
     </LinearLayout>
 

@@ -1,11 +1,15 @@
 package com.example.myapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,6 +26,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editLogin: EditText
     private lateinit var editPassword: EditText
 
+    private val registrationLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val login = result.data?.getStringExtra("registered_login")
+                if (login != null) {
+                    editLogin.setText(login)
+                    editPassword.text.clear()
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,6 +46,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        DatabaseHandler.getInstance(this).writableDatabase
 
         editLogin = findViewById(R.id.editLogin)
         editPassword = findViewById(R.id.editPassword)
@@ -38,6 +54,13 @@ class MainActivity : AppCompatActivity() {
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
         val buttonRegistration = findViewById<Button>(R.id.buttonRegistration)
         val buttonExit = findViewById<Button>(R.id.buttonExit)
+        val switchTheme = findViewById<Switch>(R.id.switchTheme)
+
+        switchTheme.isChecked = ThemeManager.isNightFromPrefs(this)
+        switchTheme.setOnCheckedChangeListener { _, isChecked ->
+            ThemeManager.saveNightToPrefs(this, isChecked)
+            ThemeManager.apply(isChecked)
+        }
 
         if (savedInstanceState != null) {
             editLogin.setText(savedInstanceState.getString(LOGIN, ""))
@@ -46,23 +69,29 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonLogin.setOnClickListener {
-            if (editLogin.text.isNullOrEmpty() || editPassword.text.isNullOrEmpty()) {
-                Log.i(TAG, "Необходимо ввести логин и пароль")
-            } else {
-                val intentMenu = Intent(this, MenuActivity::class.java)
+            val login = editLogin.text.toString().trim()
+            val password = editPassword.text.toString()
 
-                intentMenu.putExtra("first_name", intent.getStringExtra("first_name"))
-                intentMenu.putExtra("last_name", intent.getStringExtra("last_name"))
-                intentMenu.putExtra("email", intent.getStringExtra("email"))
-                intentMenu.putExtra("phone", intent.getStringExtra("phone"))
-
-                startActivity(intentMenu)
+            if (login.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Введите логин и пароль", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            val user = DatabaseHandler.getInstance(this).authenticate(login, password)
+            if (user == null) {
+                AuthLogger.logFailure(this, login)
+                Toast.makeText(this, "Неверный логин или пароль", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            AuthLogger.logSuccess(this, user)
+            Session.login(user.id)
+            ThemeManager.apply(user.nightMode)
+            startActivity(Intent(this, MenuActivity::class.java))
         }
 
         buttonRegistration.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java)
-            startActivity(intent)
+            registrationLauncher.launch(Intent(this, RegistrationActivity::class.java))
         }
 
         buttonExit.setOnClickListener {
@@ -96,6 +125,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        if (isFinishing) {
+            Session.logout()
+        }
 
         Log.i(TAG, "MainActivity: onDestroy")
     }
